@@ -27,12 +27,18 @@ public class BlackJackApp {
 				dealer.addCard(dealer.dealCard());
 			}
 			showCardsInPlay(dealer, player);
+			System.out.println(player.getHandVal());
 			
 			System.out.println("Would you like to Hit or Stay");
 			String toHitOrNotToHit = scanner.next();
 			scanner.nextLine();
 			int playerScore = hitOrNah(dealer, player, toHitOrNotToHit);
 			int dealerScore = hitOrNahDealerEdition(dealer);
+			System.out.println("Player score = " + playerScore);
+			if(playerScore <= 21) {
+				System.out.println("Dealer score = " + dealerScore);
+				pickWinner(playerScore, dealerScore);
+			}
 			
 			
 			System.out.println("Type quit to stop or anything else to continue");
@@ -41,10 +47,32 @@ public class BlackJackApp {
 
 	}
 
-	private int hitOrNahDealerEdition(Dealer dealer) {
+	private void pickWinner(int playerScore, int dealerScore) {
+		if(dealerScore > 21) {
+			System.out.println("Dealer Busts, You WIN!!");
+		} else if (playerScore > dealerScore) {
+			System.out.println("You scored higher than the Dealer, You WIN!!");
+		} else if (playerScore == dealerScore) {
+			System.out.println("Its a push...");
+		} else {
+			System.out.println("Better luck next time, Dealer wins");
+		}
 		
+	}
+
+	private int hitOrNahDealerEdition(Dealer dealer) {
+		System.out.println("Dealer: ");
+		dealer.showHand();
 		while(dealer.getHandVal() <= 16) {
-			hitOrNah(dealer, dealer, "Hit");
+			dealer.addCard(dealer.dealCard());
+			dealer.showHand();
+			System.out.println(dealer.getHandVal());
+			if(dealer.getHandVal() > 21) {
+				System.out.println("Dealer Busts");
+				break;
+			} else if (dealer.getHandVal() >= 17) {
+				break;
+			}
 		}
 		
 		return dealer.getHandVal();
@@ -54,8 +82,9 @@ public class BlackJackApp {
 		while ((!(hit.equalsIgnoreCase("Stay"))) && (player.getHandVal() <= 21)) {
 			player.addCard(dealer.dealCard());
 			player.showHand();
+			System.out.println(player.getHandVal());
 			if(player.getHandVal() > 21) {
-				System.out.println("Bust you lose!");
+				System.out.println("Bust You Lose!");
 				break;
 			} else if (player.getHandVal() == 21) {
 				System.out.println("Congrats!! 21!");
@@ -72,7 +101,8 @@ public class BlackJackApp {
 
 	private void showCardsInPlay(Dealer dealer, Player player) {
 		System.out.println("Dealers Cards:");
-		dealer.showOneCard();
+		dealer.showHand(1);
+		System.out.println("** of *");
 		System.out.println("Players Cards:");
 		player.showHand();
 	}
