@@ -10,14 +10,14 @@ also just in case:
 Problem Gambling Hotline: 24-HOUR CONFIDENTIAL HELPLINE: Call or Text 1-800-522-4700.
 
 #Java Concepts used
--Abstraction
--Polymorphism
--Inheritance
--Encapsulation
--Enums
--multi-level method calls
--Emphasis on working with more Objects rather than primitives.
--ArrayLists
--Overriding
--Overloading
+- Abstraction
+- Polymorphism
+- Inheritance
+- Encapsulation
+- Enums
+- multi-level method calls
+- Emphasis on working with more Objects rather than primitives.
+- ArrayLists
+- Overriding
+- Overloading
 
