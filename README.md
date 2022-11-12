@@ -1,5 +1,5 @@
-#BlackJack Project
-#Description
+# BlackJack Project
+## Description
 - this game implements the four pillars of Object Oriented programming 
 Abstraction, Polymorphism, Inheritance, Encapsulation. 
 - This game utilizes several classes one for a card, a deck, a player, a dealer etc...
@@ -9,7 +9,7 @@ If you go over 21 you bust, if you're 21 or under and dealer busts you win, if y
 also just in case:
 Problem Gambling Hotline: 24-HOUR CONFIDENTIAL HELPLINE: Call or Text 1-800-522-4700.
 
-#Java Concepts used
+# Java Concepts used
 - Abstraction
 - Polymorphism
 - Inheritance
