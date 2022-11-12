@@ -39,4 +39,8 @@ public class Card {
 		Card other = (Card) obj;
 		return rank == other.rank && suit == other.suit;
 	}
+	
+	public Rank getRank() {
+		return this.rank;
+	}
 }

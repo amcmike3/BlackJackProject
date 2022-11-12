@@ -1,14 +1,18 @@
 package com.skilldistillery.cards.blackjackapp;
 
+import java.util.List;
 import java.util.Scanner;
 
+import com.skilldistillery.cards.entities.Card;
 import com.skilldistillery.cards.entities.Dealer;
-import com.skilldistillery.cards.entities.Deck;
 import com.skilldistillery.cards.entities.Player;
+import com.skilldistillery.cards.entities.Rank;
 
 public class BlackJackApp {
 
 	Scanner scanner;
+	Dealer dealer;
+	Player player;
 
 	public static void main(String[] args) {
 		BlackJackApp app = new BlackJackApp();
@@ -20,27 +24,27 @@ public class BlackJackApp {
 		System.out.println("Welcome to Black Jack Good Luck!!");
 		String choice = "";
 		while (!(choice.equalsIgnoreCase("quit"))) {
-			Dealer dealer = new Dealer();
-			Player player = new Player();
+			dealer = new Dealer();
+			player = new Player();
 			for (int i = 0; i < 2; i++) {
 				player.addCard(dealer.dealCard());
 				dealer.addCard(dealer.dealCard());
 			}
-			showCardsInPlay(dealer, player);
+			showInitialCards();
 			System.out.println(player.getHandVal());
-			
-			System.out.println("Would you like to Hit or Stay");
-			String toHitOrNotToHit = scanner.next();
-			scanner.nextLine();
-			int playerScore = hitOrNah(dealer, player, toHitOrNotToHit);
-			int dealerScore = hitOrNahDealerEdition(dealer);
-			System.out.println("Player score = " + playerScore);
-			if(playerScore <= 21) {
+
+			int playerScore = hitOrNah();
+			int dealerScore;
+			if (!player.isBust()) {
+				dealerScore = hitOrNahDealerEdition();
 				System.out.println("Dealer score = " + dealerScore);
-				pickWinner(playerScore, dealerScore);
+			} else {
+				dealerScore = dealer.getHandVal();
+				System.out.println("Dealer score = " + dealerScore);
 			}
-			
-			
+			System.out.println("Player score = " + playerScore);
+			pickWinner(playerScore, dealerScore);
+
 			System.out.println("Type quit to stop or anything else to continue");
 			choice = scanner.nextLine();
 		}
@@ -48,45 +52,57 @@ public class BlackJackApp {
 	}
 
 	private void pickWinner(int playerScore, int dealerScore) {
-		if(dealerScore > 21) {
+		if (dealer.isBust()) {
 			System.out.println("Dealer Busts, You WIN!!");
-		} else if (playerScore > dealerScore) {
+		} else if (playerScore > dealerScore && !player.isBust()) {
 			System.out.println("You scored higher than the Dealer, You WIN!!");
 		} else if (playerScore == dealerScore) {
 			System.out.println("Its a push...");
 		} else {
 			System.out.println("Better luck next time, Dealer wins");
 		}
-		
+
 	}
 
-	private int hitOrNahDealerEdition(Dealer dealer) {
+	private int hitOrNahDealerEdition() {
 		System.out.println("Dealer: ");
 		dealer.showHand();
-		while(dealer.getHandVal() <= 16) {
+		while (dealer.getHandVal() <= 16) {
+			System.out.println("Dealer: ");
 			dealer.addCard(dealer.dealCard());
 			dealer.showHand();
 			System.out.println(dealer.getHandVal());
-			if(dealer.getHandVal() > 21) {
+			if (dealer.isBust()) {
 				System.out.println("Dealer Busts");
 				break;
-			} else if (dealer.getHandVal() >= 17) {
+			} else if (!dealer.hitAgain()) {
 				break;
 			}
 		}
-		
+
 		return dealer.getHandVal();
 	}
 
-	private int hitOrNah(Dealer dealer, Player player, String hit) {
-		while ((!(hit.equalsIgnoreCase("Stay"))) && (player.getHandVal() <= 21)) {
+	private int hitOrNah() {
+		String hit = "Stay";
+		if(!(player.isBlackJack())) {
+			System.out.println("Would you like to Hit or Stay");
+			hit = scanner.next();
+			scanner.nextLine();
+		} else {
+			System.out.println("Woah BlackJack!!");
+		}
+		int ans = 0;
+		while ((!(hit.equalsIgnoreCase("Stay"))) && (!player.isBust()) && (!(player.isBlackJack()))) {
 			player.addCard(dealer.dealCard());
 			player.showHand();
-			System.out.println(player.getHandVal());
-			if(player.getHandVal() > 21) {
+			ans = player.getHandVal();
+			
+			System.out.println(ans);
+			if (player.isBust()) {
 				System.out.println("Bust You Lose!");
 				break;
-			} else if (player.getHandVal() == 21) {
+			} else if (player.is21()) {
 				System.out.println("Congrats!! 21!");
 				break;
 			} else {
@@ -94,18 +110,18 @@ public class BlackJackApp {
 				hit = scanner.next();
 				scanner.nextLine();
 			}
-			
+
 		}
 		return player.getHandVal();
 	}
 
-	private void showCardsInPlay(Dealer dealer, Player player) {
+
+	private void showInitialCards() {
 		System.out.println("Dealers Cards:");
 		dealer.showHand(1);
 		System.out.println("** of *");
 		System.out.println("Players Cards:");
 		player.showHand();
 	}
-
 
 }

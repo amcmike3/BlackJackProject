@@ -17,6 +17,15 @@ public class Dealer extends Player{
 		return card;
 	}
 
+	public boolean hitAgain() {
+		boolean ans = true;
+		Hand hand = super.getHand();
+		if (super.getHand().getHandValue() >= 17) {
+			ans = false;
+		}
+		return ans;
+	}
+
 
 	
 }
