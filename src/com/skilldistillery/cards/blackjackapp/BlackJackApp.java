@@ -31,7 +31,7 @@ public class BlackJackApp {
 				dealer.addCard(dealer.dealCard());
 			}
 			showInitialCards();
-			System.out.println(player.getHandVal());
+			System.out.println(player.getHandVal() + " total");
 
 			int playerScore = hitOrNah();
 			int dealerScore;
@@ -54,6 +54,10 @@ public class BlackJackApp {
 	private void pickWinner(int playerScore, int dealerScore) {
 		if (dealer.isBust()) {
 			System.out.println("Dealer Busts, You WIN!!");
+		} else if (player.isBlackJack() && !dealer.isBlackJack()){
+			System.out.println("You got Black Jack you win!");
+		} else if (!player.isBlackJack() && dealer.isBlackJack()){
+			System.out.println("Dealer got Black Jack you lose!");
 		} else if (playerScore > dealerScore && !player.isBust()) {
 			System.out.println("You scored higher than the Dealer, You WIN!!");
 		} else if (playerScore == dealerScore) {
@@ -71,7 +75,7 @@ public class BlackJackApp {
 			System.out.println("Dealer: ");
 			dealer.addCard(dealer.dealCard());
 			dealer.showHand();
-			System.out.println(dealer.getHandVal());
+			System.out.println(dealer.getHandVal() + " total");
 			if (dealer.isBust()) {
 				System.out.println("Dealer Busts");
 				break;
@@ -96,9 +100,8 @@ public class BlackJackApp {
 		while ((!(hit.equalsIgnoreCase("Stay"))) && (!player.isBust()) && (!(player.isBlackJack()))) {
 			player.addCard(dealer.dealCard());
 			player.showHand();
-			ans = player.getHandVal();
 			
-			System.out.println(ans);
+			System.out.println(player.getHandVal() + " total");
 			if (player.isBust()) {
 				System.out.println("Bust You Lose!");
 				break;
