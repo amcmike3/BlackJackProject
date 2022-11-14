@@ -16,11 +16,12 @@ public abstract class Hand {
 		return cards;
 	}
 	public void showHand() {
-		if(cards.size() > 0) {
-			for (Card card : cards) {
-				System.out.println(card);
-			}
-		}
+//		if(cards.size() > 0) {
+//			for (Card card : cards) {
+//				System.out.println(card);
+//			}
+//		}
+		showHand(cards.size());
 	}
 	public void showHand(int numCardsToShow) {
 		if(cards.size() > 0) {
@@ -41,8 +42,6 @@ public abstract class Hand {
 	public String toString() {
 		return "";
 	}
-	public Hand getHand(){
-		return this;
-	}
+
 
 }
